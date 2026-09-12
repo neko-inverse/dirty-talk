@@ -1,0 +1,22 @@
+node_modules/
+test-results/
+playwright-report/
+.env
+.env.*
+*.log
+
+# Local reference images (not application assets)
+/11252.jpg
+/11253.jpg
+
+# Local tools, credentials and editor state
+/.tools/
+/.work/
+/.codex/
+/.agents/
+/.vscode/
+*.pem
+*.key
+*.p12
+.DS_Store
+Thumbs.db
