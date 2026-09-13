@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import http from 'node:http';
 import { createApp, validateConfig, isPublicIPv4 } from '../server.mjs';
 import { AppError } from '../engine.mjs';
 
@@ -11,6 +12,25 @@ async function withServer(run, options) {
   try { await run(url); } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
 }
 const post = (url, body, extra = {}) => fetch(url, {method:'POST',headers:{'Content-Type':'application/json',...extra},body:JSON.stringify(body)});
+
+test('服务器支持指定 IP 和 HTTPS 域名，同时拒绝错误 Host 与跨站来源', async () => {
+  const request = (url, headers, body) => new Promise((resolve, reject) => {
+    const req = http.request(url, {method:body ? 'POST':'GET',headers:{'Content-Type':'application/json',...headers}}, res => { res.resume(); res.on('end',()=>resolve(res.statusCode)); });
+    req.on('error',reject); req.end(body ? JSON.stringify(body) : undefined);
+  });
+  for (const publicOrigin of ['http://203.0.113.10:4317','https://talk.example.com']) {
+    const host = new URL(publicOrigin).host;
+    await withServer(async url => {
+      assert.equal(await request(url,{Host:host}),200);
+      const input = {text:'我同事是傻逼',tone:'professional',language:'zh'};
+      assert.equal(await request(url+'/api/rewrite',{Host:host,Origin:publicOrigin},input),200);
+      assert.equal(await request(url+'/api/rewrite',{Host:host,Origin:'https://evil.example'},input),403);
+      assert.equal(await request(url,{Host:'evil.example'}),403);
+      assert.equal(await request(url+'/api/rewrite',{Host:host,Origin:'null'},input),403);
+    }, {publicOrigin});
+  }
+  for (const publicOrigin of ['ftp://example.com','https://user:pass@example.com','https://example.com/path','https://example.com?x=1']) assert.throws(()=>createApp({publicOrigin}));
+});
 
 test('API 地址规范化支持 Base URL 和完整路径', () => {
   assert.equal(validateConfig({...validConfig,endpoint:'https://api.deepseek.com'}).url.href,'https://api.deepseek.com/chat/completions');

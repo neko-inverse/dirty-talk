@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="将真实想法改写成得体的职场表达。支持中文、英文和三种表达风格。">
+  <meta name="theme-color" content="#f3f1eb"><title>得体 Talk · Dirty talk, 得体说</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/settings.css">
+</head>
+<body>
+  <header class="header"><a class="brand" href="/" aria-label="得体 Talk 首页">得体 <i>Talk.</i></a><nav aria-label="主导航"><button id="about-open" class="text-button">名字有点意思</button><button id="settings-open" class="settings-button">模型设置</button></nav></header>
+  <main>
+    <section class="intro"><div><p class="intro-kicker">话可以难听，也可以好好说。</p><h1><span class="dirty-word">Dirty</span> talk <span class="word-arrow" aria-hidden="true">→</span> <span class="decent-word">得体</span> talk<span class="full-stop">.</span></h1><p>脾气留在这里，体面带去上班。</p></div><span class="edition">职场语言转换 / 001</span></section>
+    <section class="workspace" aria-label="职场表达转换器">
+      <div class="workspace-toolbar"><div class="workspace-title">同一句话，两种说法。</div><span class="mode-badge" id="mode-badge">本地示例模式</span></div>
+      <div class="editors">
+        <section class="editor input-editor"><div class="editor-heading"><h2><span class="panel-number">01</span> Dirty talk <small>心里那句</small></h2><span class="language-label">中文 / English</span></div><label for="source" class="sr-only">输入需要改写的内容</label><textarea id="source" maxlength="2000" spellcheck="false" placeholder="比如：这个会真的有必要开吗？">我同事是傻逼</textarea><div class="editor-bottom"><button id="clear" class="subtle-button" aria-label="清空输入">清空</button><span id="counter">6 / 2,000</span></div></section>
+        <div class="center-arrow" aria-hidden="true">→</div>
+        <section class="editor output-editor"><div class="editor-heading"><h2><span class="panel-number">02</span> 得体 talk <small>发出去那句</small></h2><label class="sr-only" for="language">输出语言</label><select id="language"><option value="zh" selected>简体中文</option><option value="en">English</option></select></div><div id="output" class="output" aria-live="polite"><p id="result">我与同事在专业协作上有不同的工作思路。</p><span id="output-tag" class="output-tag">示例预览 · 得体专业</span></div><div class="editor-bottom"><span id="result-caption">有话直说，换个说法。</span><div class="output-actions"><button id="speak" class="icon-button" aria-label="朗读结果" title="朗读结果">朗读</button><button id="copy" class="copy-button" aria-label="复制结果">复制</button></div></div></section>
+      </div>
+      <div class="controls"><div class="tone-control"><span class="control-label">得体几分？</span><div class="segments" role="group" aria-label="表达风格"><button data-tone="natural" aria-pressed="false">自然得体</button><button data-tone="professional" class="selected" aria-pressed="true">得体专业</button><button data-tone="linkedin" aria-pressed="false">领英浓度拉满</button></div></div><button id="generate" class="primary-button"><span id="generate-label">得体一下</span><span aria-hidden="true">→</span><kbd>Ctrl ↵</kbd></button></div>
+      <div class="workspace-foot"><span id="privacy-note"><span aria-hidden="true">◇</span> 本地示例不上传文本 · 接入模型后支持自由改写</span><span id="tone-help">专业、克制，适合日常工作沟通。</span></div>
+    </section>
+    <div id="status" role="status" class="status" aria-live="polite"></div>
+    <section class="examples-section" aria-labelledby="examples-title"><div class="section-heading"><h2 id="examples-title">不知道怎么开口？<span>试试这些。</span></h2><span>一点真实，一点语言的艺术。</span></div><div class="examples"><button class="example" data-example="colleague"><span class="example-icon">↔</span><span class="example-body"><span class="example-category">同事协作</span><strong>我同事是傻逼</strong></span><span class="example-arrow">↗</span></button><button class="example" data-example="resign"><span class="example-icon">↗</span><span class="example-body"><span class="example-category">职业新篇章</span><strong>这破工作谁爱干谁干，我不干了</strong></span><span class="example-arrow">↗</span></button><button class="example" data-example="meeting"><span class="example-icon">◷</span><span class="example-body"><span class="example-category">会议太多</span><strong>这个会真的有必要开吗？</strong></span><span class="example-arrow">↗</span></button><button class="example" data-example="boundary"><span class="example-icon">⊞</span><span class="example-body"><span class="example-category">守住边界</span><strong>下班了，别再找我了</strong></span><span class="example-arrow">↗</span></button></div></section>
+    <footer><span class="footer-brand">Dirty 是情绪，得体是技术。</span><p>灵感来自 LinkedIn Speak · 独立作品</p><button id="sources-open" class="text-button">关于这个谐音</button></footer>
+  </main>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><form id="settings-form"><div class="dialog-heading"><div><h2 id="settings-title">模型设置</h2></div><button type="button" class="dialog-close" data-close aria-label="关闭设置">×</button></div><p class="dialog-description">选好服务商，填入密钥，就能改写自己的话。</p>
+    <label for="provider">模型服务商</label><select id="provider"></select>
+    <div class="provider-info"><p id="provider-latest"></p><p id="provider-note"></p><div class="provider-links"><a id="provider-catalog" target="_blank" rel="noreferrer">官方模型目录 ↗</a><a id="provider-docs" target="_blank" rel="noreferrer">接入文档 ↗</a></div><small id="catalog-date"></small></div>
+    <div class="label-row"><label for="api-key">API Key</label><a id="provider-key" target="_blank" rel="noreferrer">获取 API Key ↗</a></div><div class="key-field"><input id="api-key" type="password" autocomplete="off" placeholder="粘贴该厂商的 API Key" required><button type="button" id="toggle-key" aria-label="显示密钥" aria-pressed="false">显示</button></div>
+    <label for="model-choice">选择模型</label><select id="model-choice"></select><div id="custom-model-field" hidden><label for="model">自定义模型 ID</label><input id="model" placeholder="填写服务商提供的模型 ID" maxlength="150"></div>
+    <p id="selected-model-id" class="field-note"></p><p class="field-note">预设仅列出文本改写适用型号；更多模态、历史快照及可用权限请查官方目录。</p>
+    <details id="endpoint-details"><summary>高级设置 <span>API 地址</span></summary><label for="endpoint">API 地址</label><input id="endpoint" type="url" placeholder="https://api.example.com/v1" required><p class="field-note">可填写 Base URL 或完整的 /chat/completions 地址。仅支持 HTTPS 公开域名。</p></details>
+    <div class="connection-row"><button type="button" id="test-connection" class="test-button"><span aria-hidden="true">↔</span> 测试连接</button><span>发送一句测试文本，可能产生少量费用</span></div><p id="settings-status" role="status" aria-live="polite"></p>
+    <p class="key-note">◇ 服务商与模型偏好保存在本机。密钥仅在本页内存保留，刷新后自动清除；文本通过本地服务发往所选服务商。</p><div class="dialog-actions"><button type="button" id="use-demo" class="settings-button">使用本地示例</button><button id="save-config" type="submit" class="primary-button">保存并使用 <span aria-hidden="true">→</span></button></div></form></dialog>
+  <dialog id="about-dialog" aria-label="关于得体 Talk">
+    <div class="dialog-heading"><h2>Dirty 一点，得体一点。</h2><button class="dialog-close" data-close aria-label="关闭说明">×</button></div>
+    <p>Dirty 和「得体」，念起来有点像，发出去却差很多。这个名字说的就是这件事：把心里那句不好听的话，换成工作里能用的说法。</p>
+    <div class="about-callout">话换个说法，立场不用换。</div>
+    <p>自然得体，适合跟同事直说；得体专业，适合正式沟通；领英浓度拉满，把吐槽写成职业新篇章。切换风格就能看到示例区别。</p>
+    <p>灵感来自 Kagi Translate 的 LinkedIn Speak 模式。这是独立作品，与 LinkedIn 或 Kagi 无隶属关系。</p>
+    <div id="source-links"><a href="https://translate.kagi.com/?from=en&amp;to=LinkedIn+speak" target="_blank" rel="noreferrer">体验原版 ↗</a><a href="https://help.kagi.com/kagi/translate/" target="_blank" rel="noreferrer">Kagi 官方文档 ↗</a><a href="https://kagi.com/changelog" target="_blank" rel="noreferrer">官方更新日志 ↗</a></div>
+  </dialog>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
